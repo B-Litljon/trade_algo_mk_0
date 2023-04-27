@@ -17,5 +17,11 @@
             
         - a website/app
         
-            somewhere even the least technical savvy people could setup an account and get some sloa and steady income
-            figured this would be a good way to put my web development knowledge to use as well
+            somewhere even the least technical savvy people could setup an account and get some steady income
+            figured this would be a good way to put my web development knowledge to use as well...
+            and help the people trade at the same time
+            
+### BASICALLY
+    
+    I'm going to make this a higher and higher level program as time goes on 
+    to make it so that anyone can algo trade, wether you know anything about computers or financial markets. set it and forget it
