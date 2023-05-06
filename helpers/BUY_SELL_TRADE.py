@@ -1,1 +1,0 @@
-# logic for.. you guessed it BUY SELL TRADE!!!
