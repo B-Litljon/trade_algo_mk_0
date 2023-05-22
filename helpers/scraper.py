@@ -35,8 +35,11 @@ def gecko_scrapr():
 
         master_table = pd.concat(tables)
         master_table = master_table.loc[:, master_table.columns[1:-1]]
-        master_table.to_csv('Gecko_data.csv', index=False)
+        #master_table.to_csv('Gecko_data.csv', index=False)
+        print(master_table)
 
         for remaining in range(300, 0, -1):
             print(f'Next request in {remaining} seconds...', end ='\r')
             time.sleep(1)
+
+gecko_scrapr()
