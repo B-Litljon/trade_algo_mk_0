@@ -1,1 +1,0 @@
-# after we get the price data manipulate the data further
