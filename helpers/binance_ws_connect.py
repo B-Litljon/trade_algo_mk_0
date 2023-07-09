@@ -1,16 +1,17 @@
-
 import asyncio
 import json
 import websockets
 import pandas as pd
-import mplfinance as mpf
+import sys
 
-
-async def binance_websocket():
-    uri = "wss://stream.binance.us:9443/ws/btcusdt@kline_1s"
+async def binance_websocket(base_currency, quote_currency):
+    pair = base_currency.lower() + quote_currency.lower()
+    uri = f"wss://stream.binance.us:9443/ws/{pair}@kline_1s"
     price_df = pd.DataFrame(columns=["Timestamp", "Open", "High", "Low", "Close"]) 
     async with websockets.connect(uri) as websocket:
         async for message in websocket:
+
+            # rows for dataframe
             data = json.loads(message)
             timestamp = pd.Timestamp.now()
             open_price = float(data["k"]["o"])
@@ -18,7 +19,7 @@ async def binance_websocket():
             low_price = float(data["k"]["l"])
             close_price = float(data["k"]["c"])
             
-            new_row = pd.DataFrame({
+            websocket_data = pd.DataFrame({
                 "Timestamp": [timestamp],
                 "Open": [open_price],
                 "High": [high_price],
@@ -26,18 +27,15 @@ async def binance_websocket():
                 "Close": [close_price]
             })
             
-            price_df = pd.concat([price_df, new_row], ignore_index=True)
-            
-            plotted_df = price_df.copy()
-            plotted_df['Timestamp'] = pd.to_datetime(plotted_df['Timestamp'])
-            plotted_df.set_index('Timestamp', inplace=True)
-            
-            # Plot the candlestick chart without blocking script execution
-            mpf.plot(plotted_df, type='candle', style='binance')
-            
-            print(f"Latest Close Price: {close_price}")            
-            
-asyncio.run(binance_websocket())
+            price_df = pd.concat([price_df, websocket_data], ignore_index=True)
+                         
+            print(price_df.head())
+
+# NOTE FOR FUTURE SELF:
+# so we got the websocket connection working and are storing the data into a pandas df!
+# however we need to create a more dynamic df that will only print out the data one time, 
+# then replace the values upon changes in the data. that way we're not getting a constant stream of data thats difficult to decipher
+# #
 
 
 # json response example from binance websocket api 'klines'
